@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OFFICIAL PICKPVP WEBSITE (Beta)</title>
+    <link rel="icon" href="minecraft-title.png">
+    <style>
+        @font-face {
+            font-family: 'Minecraft';
+            src: url('Minecraft.ttf') format('truetype');
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Minecraft', Arial, sans-serif;
+            background: white;
+            color: black;
+            text-align: center;
+        }
+        .title-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url('minecraft-background.png') no-repeat center center;
+            background-size: cover;
+            color: white;
+            text-shadow: 2px 2px 4px #000000;
+        }
+        .title-section img {
+            width: 50%;
+            max-width: 500px;
+        }
+        .sections-container {
+            background-color: white;
+            color: black;
+            padding: 50px;
+            border-top: 5px solid #ccc;
+            border-bottom: 5px solid #ccc;
+        }
+        .sections-container h2 {
+            margin-bottom: 20px;
+        }
+        .buttons {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        .button {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 20px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        .button img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        .button:hover img {
+            transform: scale(1.1);
+        }
+        .button-text {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            color: black;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <div class="title-section">
+        <img src="minecraft-title.png" alt="Minecraft Title Image">
+        <p>Welcome to our Minecraft themed website!</p>
+    </div>
+    <div class="sections-container">
+        <h2>Explore More:</h2>
+        <div class="buttons">
+            <a href="https://discord.gg/yCRpHqcHMU" class="button">
+                <img src="Discord.png" alt="Image 1">
+                <div class="button-text">Discord</div>
+            </a>
+            <a href="https://youtube.com/@TykkCraft" class="button">
+                <img src="Youtube.png" alt="Image 2">
+                <div class="button-text">Youtube</div>
+            </a>
+            <a href="" class="button">
+                <img src="" alt="Image 3">
+                <div class="button-text">Comming Soon</div>
+            </a>
+            <a href="" class="button">
+                <img src="" alt="Image 4">
+                <div class="button-text">Comming Soon</div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
