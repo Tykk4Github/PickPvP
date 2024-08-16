@@ -6,10 +6,11 @@
     <title>PickPvP Web (Beta)</title>
     <link rel="icon" href="title.png">
 
-    <meta property="og:title" content="PickPvP Web *Beta*">
-    <meta property="og:description" content="Welcome to the official PickPvP website. Join our community, explore our wiki, And More!">
-    <meta property="og:image" content="https://i.ibb.co/rZqY2k8/title.png">
-    <meta property="og:url" content="https://tykk4github.github.io/PickPvP/">
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="PickPvP Web (Beta)">
+    <meta property="og:description" content="Welcome to the official PickPvP website. Join our community, explore our wiki.">
+    <meta property="og:image" content="title.png"> <!-- Replace with your image URL -->
+    <meta property="og:url" content="tykk4github.github.io/PickPvP"> <!-- Replace with your website URL -->
     <meta property="og:type" content="website">
 
     <style>
@@ -32,7 +33,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.5); /* Transparent and dark */
             padding: 10px 20px;
             position: fixed;
             width: 100%;
@@ -43,13 +44,13 @@
         .nav .logo {
             width: 50px;
             height: auto;
-            margin-right: 30px;
+            margin-right: 30px; /* Reduced margin to move logo left */
         }
 
         .nav .nav-buttons {
             display: flex;
             gap: 20px;
-            flex: 1;
+            flex: 1; /* Allow buttons to take up the remaining space */
         }
 
         .nav .nav-buttons a {
@@ -77,6 +78,19 @@
 
         .nav .nav-buttons a.active::after {
             width: 100%;
+        }
+
+        @keyframes slideInFromRight {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        .nav .nav-buttons a:hover::after {
+            animation: slideInFromRight 0.3s forwards;
         }
 
         .nav .search-bar {
@@ -161,12 +175,24 @@
             background-size: cover;
             color: white;
             text-shadow: 2px 2px 4px #000000;
-            padding-top: 60px;
+            padding-top: 60px; /* Adjust for the fixed nav */
         }
 
         .title-section img {
             width: 50%;
             max-width: 500px;
+        }
+
+        .sections-container {
+            background-color: white;
+            color: black;
+            padding: 50px;
+            border-top: 5px solid #ccc;
+            border-bottom: 5px solid #ccc;
+        }
+
+        .sections-container h2 {
+            margin-bottom: 20px;
         }
 
         .buttons {
@@ -233,10 +259,9 @@
         <img src="minecraft-title.png" alt="Minecraft Title Image">
         <p>Welcome to OFFICIAL PickPvP Website! *beta*</p>
     </div>
-
     <div class="sections-container">
         <h2>Explore More:</h2>
-        <div class="buttons" id="button-container">
+        <div class="buttons">
             <a href="https://discord.gg/yCRpHqcHMU" class="button">
                 <img src="discord.png" alt="Image 1">
                 <div class="button-text">Discord</div>
@@ -258,46 +283,40 @@
                 <div class="button-text">PickPvP Wiki *Beta*</div>
             </a>
         </div>
+        <div class="buttons">
+            <a href="" class="button">
+                <img src="shop.png" alt="Shop Image">
+                <div class="button-text">PickPvP Shop</div>
+            </a>
+        </div>
     </div>
 
     <script>
-        document.getElementById('search').addEventListener('focus', function() {
-            document.getElementById('search-results').classList.add('active');
-        });
-
         document.getElementById('search').addEventListener('input', function() {
-            let filter = this.value.toLowerCase();
-            let buttons = document.querySelectorAll('#button-container .button');
-            let resultsContainer = document.getElementById('search-results');
-            
+            const query = this.value.toLowerCase();
+            const resultsContainer = document.getElementById('search-results');
             resultsContainer.innerHTML = ''; // Clear previous results
             
-            buttons.forEach(function(button) {
-                let text = button.querySelector('.button-text').textContent.toLowerCase();
-                if (text.includes(filter)) {
-                    let resultItem = document.createElement('a');
-                    resultItem.href = button.href;
-                    resultItem.className = 'search-result-item';
-                    resultItem.textContent = button.querySelector('.button-text').textContent;
-                    resultsContainer.appendChild(resultItem);
+            if (query) {
+                // Add mock search results (replace with actual search logic)
+                const mockResults = ['Home', 'PickWiki', 'Youtube', 'Discord', 'Shop'];
+                const filteredResults = mockResults.filter(item => item.toLowerCase().includes(query));
+                
+                if (filteredResults.length > 0) {
+                    resultsContainer.classList.add('active');
+                    filteredResults.forEach(item => {
+                        const resultItem = document.createElement('a');
+                        resultItem.href = '#'; // Replace with actual link
+                        resultItem.className = 'search-result-item';
+                        resultItem.textContent = item;
+                        resultsContainer.appendChild(resultItem);
+                    });
+                } else {
+                    resultsContainer.classList.remove('active');
                 }
-            });
-        });
-
-        // Hide search results when clicking outside the search bar or results
-        document.addEventListener('click', function(event) {
-            const searchBar = document.getElementById('search');
-            const searchResults = document.getElementById('search-results');
-            
-            if (!searchBar.contains(event.target) && !searchResults.contains(event.target)) {
-                searchResults.classList.remove('active');
-                searchBar.value = ''; // Clear the search bar
+            } else {
+                resultsContainer.classList.remove('active');
             }
-        });
-
-        // Prevent closing the results when clicking inside the search bar or results
-        document.getElementById('search-results').addEventListener('click', function(event) {
-            event.stopPropagation();
         });
     </script>
 </body>
