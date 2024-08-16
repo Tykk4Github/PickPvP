@@ -32,7 +32,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: rgba(0, 0, 0, 0.5); /* Transparent and dark */
+            background-color: rgba(0, 0, 0, 0.5);
             padding: 10px 20px;
             position: fixed;
             width: 100%;
@@ -43,13 +43,13 @@
         .nav .logo {
             width: 50px;
             height: auto;
-            margin-right: 30px; /* Reduced margin to move logo left */
+            margin-right: 30px;
         }
 
         .nav .nav-buttons {
             display: flex;
             gap: 20px;
-            flex: 1; /* Allow buttons to take up the remaining space */
+            flex: 1;
         }
 
         .nav .nav-buttons a {
@@ -79,17 +79,76 @@
             width: 100%;
         }
 
-        @keyframes slideInFromRight {
-            from {
-                width: 0;
-            }
-            to {
-                width: 100%;
-            }
+        .nav .search-bar {
+            flex: 1;
+            margin-left: 20px;
+            display: flex;
+            justify-content: flex-end;
+            position: relative;
         }
 
-        .nav .nav-buttons a:hover::after {
-            animation: slideInFromRight 0.3s forwards;
+        .nav .search-bar input {
+            font-family: 'Minecraft', Arial, sans-serif;
+            font-size: 1.2em;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            width: 200px;
+            transition: width 0.3s ease;
+        }
+
+        .nav .search-bar input:focus {
+            width: 300px;
+            outline: none;
+        }
+
+        .search-results {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.1);
+            padding: 5px;
+            border-radius: 5px;
+            z-index: 1001;
+            box-sizing: border-box;
+        }
+
+        .search-results.active {
+            display: block;
+        }
+
+        .search-result-item {
+            display: block;
+            color: black;
+            background-color: white;
+            padding: 5px;
+            margin: 2px 0;
+            text-decoration: none;
+            position: relative;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .search-result-item:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .search-result-item::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background-color: black;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+
+        .search-result-item:hover::after {
+            width: 100%;
         }
 
         .title-section {
@@ -102,24 +161,12 @@
             background-size: cover;
             color: white;
             text-shadow: 2px 2px 4px #000000;
-            padding-top: 60px; /* Adjust for the fixed nav */
+            padding-top: 60px;
         }
 
         .title-section img {
             width: 50%;
             max-width: 500px;
-        }
-
-        .sections-container {
-            background-color: white;
-            color: black;
-            padding: 50px;
-            border-top: 5px solid #ccc;
-            border-bottom: 5px solid #ccc;
-        }
-
-        .sections-container h2 {
-            margin-bottom: 20px;
         }
 
         .buttons {
@@ -175,6 +222,10 @@
             <a href="https://discord.gg/yCRpHqcHMU">Discord</a>
             <a href="">Shop</a>
         </div>
+        <div class="search-bar">
+            <input type="text" id="search" placeholder="Search...">
+            <div class="search-results" id="search-results"></div>
+        </div>
         <img src="title.png" alt="Logo" class="logo">
     </div>
 
@@ -182,9 +233,10 @@
         <img src="minecraft-title.png" alt="Minecraft Title Image">
         <p>Welcome to OFFICIAL PickPvP Website! *beta*</p>
     </div>
+
     <div class="sections-container">
         <h2>Explore More:</h2>
-        <div class="buttons">
+        <div class="buttons" id="button-container">
             <a href="https://discord.gg/yCRpHqcHMU" class="button">
                 <img src="discord.png" alt="Image 1">
                 <div class="button-text">Discord</div>
@@ -206,28 +258,47 @@
                 <div class="button-text">PickPvP Wiki *Beta*</div>
             </a>
         </div>
-        <div class="buttons">
-            <a href="" class="button">
-                <img src="" alt="Image 5">
-                <div class="button-text">Coming Soon</div>
-            </a>
-            <a href="" class="button">
-                <img src="" alt="Image 6">
-                <div class="button-text">Coming Soon</div>
-            </a>
-            <a href="https://sites.google.com/view/nebulamcservers" class="button">
-                <img src="nebula.png" alt="Image 7">
-                <div class="button-text">NebulaMC</div>
-            </a>
-            <a href="" class="button">
-                <img src="" alt="Image 8">
-                <div class="button-text">Coming Soon</div>
-            </a>
-            <a href="" class="button">
-                <img src="" alt="Image 9">
-                <div class="button-text">Coming Soon</div>
-            </a>
-        </div>
     </div>
+
+    <script>
+        document.getElementById('search').addEventListener('focus', function() {
+            document.getElementById('search-results').classList.add('active');
+        });
+
+        document.getElementById('search').addEventListener('input', function() {
+            let filter = this.value.toLowerCase();
+            let buttons = document.querySelectorAll('#button-container .button');
+            let resultsContainer = document.getElementById('search-results');
+            
+            resultsContainer.innerHTML = ''; // Clear previous results
+            
+            buttons.forEach(function(button) {
+                let text = button.querySelector('.button-text').textContent.toLowerCase();
+                if (text.includes(filter)) {
+                    let resultItem = document.createElement('a');
+                    resultItem.href = button.href;
+                    resultItem.className = 'search-result-item';
+                    resultItem.textContent = button.querySelector('.button-text').textContent;
+                    resultsContainer.appendChild(resultItem);
+                }
+            });
+        });
+
+        // Hide search results when clicking outside the search bar or results
+        document.addEventListener('click', function(event) {
+            const searchBar = document.getElementById('search');
+            const searchResults = document.getElementById('search-results');
+            
+            if (!searchBar.contains(event.target) && !searchResults.contains(event.target)) {
+                searchResults.classList.remove('active');
+                searchBar.value = ''; // Clear the search bar
+            }
+        });
+
+        // Prevent closing the results when clicking inside the search bar or results
+        document.getElementById('search-results').addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+    </script>
 </body>
 </html>
