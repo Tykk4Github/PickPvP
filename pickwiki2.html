@@ -32,7 +32,7 @@
             top: 0;
             z-index: 1000;
         }
-        
+
         .nav .logo {
             width: 50px;
             height: auto;
@@ -76,7 +76,10 @@
             flex: 1;
             margin-left: 20px;
             display: flex;
+            flex-direction: column;
             justify-content: flex-end;
+            align-items: flex-end;
+            position: relative;
         }
 
         .nav .search-bar input {
@@ -98,7 +101,13 @@
             background-color: rgba(0, 0, 0, 0.1);
             padding: 10px;
             border-radius: 5px;
-            margin-top: 10px;
+            width: 100%;
+            max-width: 300px; /* Matches the expanded search bar width */
+            position: absolute;
+            top: 100%; /* Position it right below the search bar */
+            left: 0;
+            z-index: 999;
+            display: none; /* Initially hidden */
             text-align: left;
         }
 
@@ -232,11 +241,10 @@
         </div>
         <div class="search-bar">
             <input type="text" id="search" placeholder="Search...">
+            <div class="search-results" id="search-results"></div>
         </div>
         <img src="title.png" alt="Logo" class="logo">
     </div>
-
-    <div class="search-results" id="search-results"></div>
 
     <div class="title-section">
         <img src="minecraft-title.png" alt="Minecraft Title Image">
@@ -297,6 +305,7 @@
             let resultsContainer = document.getElementById('search-results');
             
             resultsContainer.innerHTML = ''; // Clear previous results
+            resultsContainer.style.display = filter ? 'block' : 'none'; // Show/hide based on input
             
             buttons.forEach(function(button) {
                 let text = button.querySelector('.button-text').textContent.toLowerCase();
